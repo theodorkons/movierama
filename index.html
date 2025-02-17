@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <header>
+      <div class="movierama">Movie<span>Rama</span></div>
+      <div id="searchBar">
+        <img src="/icons/search.svg" alt="search icon" id="searchIcon" />
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search..."
+          oninput="fetchSearchResults(this.value)"
+        />
+      </div>
+    </header>
+    <div id="moviesContainer"></div>
+    <div id="loaderContainer"><div class="loader"></div></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

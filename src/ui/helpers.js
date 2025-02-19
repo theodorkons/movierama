@@ -25,6 +25,21 @@ export function getTrailerUrl(videos) {
       break;
     }
   }
-  //   video = video ? video : videos[0].key;
+  video = video ? video : videos[0].key;
   return `https://www.youtube.com/watch?v=${video}`;
+}
+
+export function removeLoader() {
+  const loader = document.getElementById("movieLoader");
+  if (loader) loader.remove();
+}
+
+export function addLoader() {
+  const loaderContainer = document.getElementById("loaderContainer");
+  let loader = document.getElementById("movieLoader");
+  if (loader) return;
+  loader = document.createElement("div");
+  loader.classList.add("loader");
+  loader.setAttribute("id", "movieLoader");
+  loaderContainer.appendChild(loader);
 }

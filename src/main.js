@@ -4,7 +4,12 @@ import {
   createMovieCard,
   createSomethingWentWrong,
 } from "./ui/create";
-import { clearMovies } from "./ui/helpers";
+import {
+  addLoader,
+  clearMovies,
+  removeLoader,
+  resetErrorState,
+} from "./ui/helpers";
 
 const apiUrl = "https://api.themoviedb.org/3";
 const apiKey = "bc50218d91157b1ba4f142ef7baaa6a0";
@@ -20,6 +25,26 @@ let videosController = new AbortController();
 
 const loader = document.getElementById("movieLoader");
 const searchBar = document.getElementById("searchBar");
+
+const observer = new IntersectionObserver(
+  async (entries) => {
+    if (entries[0].isIntersecting) {
+      try {
+        if (userSearching) {
+          fetchSearchResults(searchQuery);
+        } else {
+          await fetchNowPlayingMovies();
+          nowPlayingCurrentPage++;
+        }
+      } catch {
+        createSomethingWentWrong();
+      }
+    }
+  },
+  { threshold: 0.1 }
+);
+
+observer.observe(loader);
 
 async function fetchNowPlayingMovies() {
   searchController.abort();
@@ -94,6 +119,8 @@ export async function fetchMovieReviews(movieId) {
 }
 
 export async function fetchSearchResults(query) {
+  resetErrorState();
+  removeLoader(observer);
   nowPlayingController.abort();
   if (!query || query.trim() === "") {
     // if user cleared search query clear search results and render now playing
@@ -101,6 +128,7 @@ export async function fetchSearchResults(query) {
     searchQuery = "";
     nowPlayingCurrentPage = 1;
     clearMovies();
+    addLoader(observer);
     return;
   }
   searchController.abort();
@@ -127,32 +155,13 @@ export async function fetchSearchResults(query) {
       createMovieCard(movie);
     });
     searchingCurrentPage++;
+    addLoader(observer);
     return movies;
   } catch (error) {
     if (error.name !== "AbortError") createSomethingWentWrong();
     return null;
   }
 }
-
-const observer = new IntersectionObserver(
-  async (entries) => {
-    if (entries[0].isIntersecting) {
-      try {
-        if (userSearching) {
-          fetchSearchResults(searchQuery);
-        } else {
-          await fetchNowPlayingMovies();
-          nowPlayingCurrentPage++;
-        }
-      } catch {
-        createSomethingWentWrong();
-      }
-    }
-  },
-  { threshold: 0.1 }
-);
-
-observer.observe(loader);
 
 searchBar.addEventListener("click", () => {
   searchBar.classList.add("expand");

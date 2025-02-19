@@ -29,12 +29,16 @@ export function getTrailerUrl(videos) {
   return `https://www.youtube.com/watch?v=${video}`;
 }
 
-export function removeLoader() {
+export function removeLoader(observer) {
   const loader = document.getElementById("movieLoader");
-  if (loader) loader.remove();
+  if (loader) {
+    observer.unobserve(loader);
+    loader.remove();
+  }
 }
 
-export function addLoader() {
+export function addLoader(observer) {
+  console.log("loader");
   const loaderContainer = document.getElementById("loaderContainer");
   let loader = document.getElementById("movieLoader");
   if (loader) return;
@@ -42,4 +46,11 @@ export function addLoader() {
   loader.classList.add("loader");
   loader.setAttribute("id", "movieLoader");
   loaderContainer.appendChild(loader);
+  observer.observe(loader);
+}
+
+export function resetErrorState() {
+  const noMoviesFound = document.getElementById("noMoviesFound");
+  if (noMoviesFound) return;
+  noMoviesFound.remove();
 }

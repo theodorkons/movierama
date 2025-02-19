@@ -3,6 +3,7 @@ import {
   closeMovieModal,
   getTrailerUrl,
   formatRating,
+  removeLoader,
 } from "./helpers";
 import {
   fetchMovieDetails,
@@ -14,7 +15,6 @@ const MAX_RATING = 10;
 const moviesContainer = document.getElementById("moviesContainer");
 
 export function createMovieCard(movie) {
-  // if (!movie) return;
   const movieCard = document.createElement("div");
   movieCard.classList.add("movieCard");
   movieCard.setAttribute("id", movie.id);
@@ -22,7 +22,6 @@ export function createMovieCard(movie) {
   movieCard.addEventListener("click", async () => {
     const result = await fetchMovieDetails(movie.id);
     const videos = await fetchMovieVideos(movie.id);
-    console.log(videos);
     const reviews = await fetchMovieReviews(movie.id);
     createMovieModal(result, reviews, videos);
   });
@@ -122,7 +121,6 @@ export function createMovieModal(movie, movieReviews, videos) {
   trailerRatingContainer.appendChild(ratingContainer);
 
   const youtubeUrl = getTrailerUrl(videos.results);
-  console.log(youtubeUrl);
   if (youtubeUrl) {
     const movieTrailerButton = document.createElement("a");
     movieTrailerButton.classList.add("trailerButton");
@@ -153,17 +151,6 @@ export function createMovieModal(movie, movieReviews, videos) {
   const movieAdditionalDetails = document.createElement("div");
   movieAdditionalDetails.classList.add("movieAdditionalDetails");
   movieInfoModalContent.appendChild(movieAdditionalDetails);
-
-  // const movieTrailerButton = document.createElement("button");
-  // movieTrailerButton.classList.add("trailerButton");
-  // movieTrailerButton.textContent = "Watch Trailer";
-  // movieAdditionalDetails.appendChild(movieTrailerButton);
-
-  // const playIcon = document.createElement("img");
-  // playIcon.classList.add("playIcon");
-  // playIcon.src = "/icons/play-icon.svg";
-  // playIcon.alt = "Play icon button";
-  // movieTrailerButton.appendChild(playIcon);
 
   const movieCategoriesSection = document.createElement("section");
   movieAdditionalDetails.appendChild(movieCategoriesSection);
@@ -221,9 +208,11 @@ export function createMovieModal(movie, movieReviews, videos) {
       ratingIcon.src = "/icons/star-icon.svg";
       ratingIcon.alt = "Rating star icon";
       const userRating = document.createElement("div");
-      userRating.textContent = `${review.author_details.rating}/${MAX_RATING}`;
+      userRating.textContent = `${
+        review.author_details.rating ?? 0
+      }/${MAX_RATING}`;
       const blockquote = document.createElement("blockquote");
-      blockquote.textContent = review.content;
+      blockquote.innerHTML = review.content; /////////////////////////////////////////////
       reviews.appendChild(userDetails);
       userDetails.appendChild(user);
       userDetails.appendChild(userRating);
@@ -234,4 +223,28 @@ export function createMovieModal(movie, movieReviews, videos) {
 
   const moviesContainer = document.querySelector("#moviesContainer");
   moviesContainer.appendChild(movieInfoModal);
+}
+
+export function createSomethingWentWrong() {
+  const noMoviesFound = document.getElementById("noMoviesFound");
+  if (noMoviesFound) return;
+  removeLoader();
+  const div = document.createElement("div");
+  div.setAttribute("id", "noMoviesFound");
+  div.textContent = "Something went wrong!";
+  const p = document.createElement("p");
+  p.textContent = "Could not find any movies";
+  div.appendChild(p);
+  document.body.appendChild(div);
+}
+
+export function createErrorPopup(text) {
+  const popup = document.createElement("div");
+  popup.classList.add("popup");
+  popup.textContent = text;
+  document.body.appendChild(popup);
+
+  setTimeout(() => {
+    popup.remove();
+  }, 5000);
 }

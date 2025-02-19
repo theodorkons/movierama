@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
   </head>
@@ -11,17 +17,17 @@
     <header>
       <div class="movierama">Movie<span>Rama</span></div>
       <div id="searchBar">
-        <img src="/icons/search.svg" alt="search icon" id="searchIcon" />
+        <img src="/icons/search.svg" alt="search icon" />
         <input
           type="text"
-          id="searchInput"
-          placeholder="Search..."
+          name="searchBar"
           oninput="fetchSearchResults(this.value)"
         />
       </div>
     </header>
+
     <div id="moviesContainer"></div>
-    <div id="loaderContainer"><div class="loader"></div></div>
+    <div id="loaderContainer"><div id="movieLoader" class="loader"></div></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

@@ -77,6 +77,7 @@ header {
   background-color: #272727;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 40px;
 }
 
 .movierama {
@@ -94,7 +95,6 @@ header {
 }
 
 #moviesContainer {
-  font-family: "Inter";
   padding-inline: 12px;
   display: grid;
   justify-content: center;
@@ -109,7 +109,7 @@ header {
   width: 100%;
   color: white;
   max-height: 400px;
-  max-width: 330px;
+  max-width: 250px;
   margin-bottom: 20px;
   background-color: #1a1a1a;
   border-radius: 8px;
@@ -335,6 +335,27 @@ header {
   margin-bottom: 50px;
 }
 
+#noMoviesFound {
+  font-size: 1.8rem;
+  width: 100%;
+  text-align: center;
+  padding-top: 35px;
+}
+
+#noMoviesFound p {
+  font-size: 1.5rem;
+}
+
+.popup {
+  position: fixed;
+  bottom: 15px;
+  right: 8px;
+  padding: 30px;
+  border-radius: 8px;
+  background-color: #ff6262;
+  font-size: 1.2rem;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
@@ -350,7 +371,7 @@ header {
   }
 
   #moviesContainer {
-    margin-top: 60px;
+    margin-top: 40px;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
   }
@@ -362,6 +383,14 @@ header {
   .movieCard img {
     height: 70%;
   }
+
+  #noMoviesFound {
+    font-size: 2.4rem;
+  }
+
+  #noMoviesFound p {
+    font-size: 1.8rem;
+  }
 }
 
 @media only screen and (min-width: 1080px) {
@@ -370,5 +399,13 @@ header {
     margin: auto;
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
+  }
+
+  #noMoviesFound {
+    font-size: 3.7rem;
+  }
+
+  #noMoviesFound p {
+    font-size: 2rem;
   }
 }

@@ -149,8 +149,6 @@ header {
 }
 
 #movieInfoModal {
-  max-width: 500px;
-  max-height: 700px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -163,6 +161,8 @@ header {
 }
 
 .movieInfoModalContent {
+  max-width: 500px;
+  max-height: 700px;
   position: fixed;
   box-sizing: border-box;
   top: 50%;
@@ -212,7 +212,7 @@ header {
   object-fit: fill;
   width: 100%;
   height: 100%;
-  mask-image: linear-gradient(180deg, #000 10%, transparent);
+  mask-image: linear-gradient(200deg, #000 5%, transparent);
 }
 
 .movieDetails {
@@ -274,7 +274,6 @@ header {
 
 .movieCategories {
   margin-block: 30px;
-  /* padding: 10px; */
   display: flex;
   gap: 10px;
   text-wrap: nowrap;
@@ -288,13 +287,27 @@ header {
   display: none;
 }
 
-.movieCategories > li {
-  /* font-size: 0.8rem; */
-}
-
 .sectionDivider {
   border-top: 1px solid #414141;
   margin-block: 30px;
+  width: 100%;
+}
+
+.similarMoviesContainer {
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  gap: 10px;
+  padding-block: 20px;
+}
+
+.similarMoviesContainer .movieCard img {
+  width: 200px;
+}
+
+.similarMoviesContainer .movieCard .ratingStarIcon {
+  width: 16px;
+  height: 16px;
 }
 
 .reviews h2 span {

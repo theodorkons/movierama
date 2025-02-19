@@ -9,12 +9,13 @@ import {
   fetchMovieDetails,
   fetchMovieReviews,
   fetchMovieVideos,
+  fetchSimilarMovies,
 } from "../main";
 const baseImageUrl = `https://image.tmdb.org/t/p/w185`;
 const MAX_RATING = 10;
 const moviesContainer = document.getElementById("moviesContainer");
 
-export function createMovieCard(movie) {
+export function createMovieCard(movie, node) {
   const movieCard = document.createElement("div");
   movieCard.classList.add("movieCard");
   movieCard.setAttribute("id", movie.id);
@@ -23,7 +24,13 @@ export function createMovieCard(movie) {
     const result = await fetchMovieDetails(movie.id);
     const videos = await fetchMovieVideos(movie.id);
     const reviews = await fetchMovieReviews(movie.id);
-    createMovieModal(result, reviews, videos);
+    const similarMovies = await fetchSimilarMovies(movie.id);
+    createMovieModal(
+      result,
+      reviews.results,
+      videos.results,
+      similarMovies.results
+    );
   });
 
   const movieImage = document.createElement("img");
@@ -63,11 +70,14 @@ export function createMovieCard(movie) {
 
   movieCard.appendChild(movieImage);
   movieCard.appendChild(movieInfo);
-
-  moviesContainer.appendChild(movieCard);
+  if (node) {
+    node.appendChild(movieCard);
+  } else {
+    moviesContainer.appendChild(movieCard);
+  }
 }
 
-export function createMovieModal(movie, movieReviews, videos) {
+export function createMovieModal(movie, movieReviews, videos, similarMovies) {
   const movieModal = document.getElementById("movieInfoModal");
   if (movieModal) clearModal();
   const movieInfoModal = document.createElement("div");
@@ -120,7 +130,7 @@ export function createMovieModal(movie, movieReviews, videos) {
   ratingContainer.classList.add("ratingContainer");
   trailerRatingContainer.appendChild(ratingContainer);
 
-  const youtubeUrl = getTrailerUrl(videos.results);
+  const youtubeUrl = getTrailerUrl(videos);
   if (youtubeUrl) {
     const movieTrailerButton = document.createElement("a");
     movieTrailerButton.classList.add("trailerButton");
@@ -185,7 +195,27 @@ export function createMovieModal(movie, movieReviews, videos) {
   description.textContent = movie.overview;
   movieDescription.appendChild(description);
 
-  if (movieReviews.results.length > 0) {
+  if (similarMovies?.length > 0) {
+    movieAdditionalDetails.appendChild(sectionDivider);
+
+    const similarSection = document.createElement("section");
+    similarSection.classList.add("similarSection");
+    movieAdditionalDetails.appendChild(similarSection);
+
+    const similar = document.createElement("h2");
+    similar.textContent = "Similar Movies";
+    similarSection.append(similar);
+
+    const similarMoviesContainer = document.createElement("div");
+    similarMoviesContainer.classList.add("similarMoviesContainer");
+    similarSection.appendChild(similarMoviesContainer);
+
+    similarMovies.forEach((movie) => {
+      createMovieCard(movie, similarMoviesContainer);
+    });
+  }
+
+  if (movieReviews?.length > 0) {
     const sectionDivider2 = document.createElement("div");
     sectionDivider2.classList.add("sectionDivider");
     movieAdditionalDetails.appendChild(sectionDivider2);
@@ -197,9 +227,9 @@ export function createMovieModal(movie, movieReviews, videos) {
     reviewsHeading.textContent = "Reviews:";
     reviews.appendChild(reviewsHeading);
     const reviewsNumber = document.createElement("span");
-    reviewsNumber.textContent = `${movieReviews.results.length}`;
+    reviewsNumber.textContent = `${movieReviews.length}`;
     reviewsHeading.appendChild(reviewsNumber);
-    movieReviews.results.forEach((review) => {
+    movieReviews.forEach((review) => {
       const userDetails = document.createElement("div");
       userDetails.classList.add("userDetails");
       const user = document.createElement("div");

@@ -22,6 +22,7 @@ let searchController = new AbortController();
 let modalController = new AbortController();
 let reviewsController = new AbortController();
 let videosController = new AbortController();
+let similarMoviesController = new AbortController();
 
 const loader = document.getElementById("movieLoader");
 const searchBar = document.getElementById("searchBar");
@@ -112,6 +113,25 @@ export async function fetchMovieReviews(movieId) {
 
     const reviews = await response.json();
     return reviews;
+  } catch (error) {
+    createErrorPopup(error);
+    return null;
+  }
+}
+
+export async function fetchSimilarMovies(movieId) {
+  similarMoviesController.abort();
+  similarMoviesController = new AbortController();
+  try {
+    const response = await fetch(
+      `${apiUrl}/movie/${movieId}/similar?language=en-US&api_key=${apiKey}`,
+      { signal: similarMoviesController.signal }
+    );
+    if (!response.ok) throw new Error("Could not find similar movies");
+
+    const similarMovies = await response.json();
+    console.log("sim", similarMovies);
+    return similarMovies;
   } catch (error) {
     createErrorPopup(error);
     return null;

@@ -130,7 +130,6 @@ export async function fetchSimilarMovies(movieId) {
     if (!response.ok) throw new Error("Could not find similar movies");
 
     const similarMovies = await response.json();
-    console.log("sim", similarMovies);
     return similarMovies;
   } catch (error) {
     createErrorPopup(error);
@@ -183,12 +182,14 @@ export async function fetchSearchResults(query) {
   }
 }
 
-searchBar.addEventListener("click", () => {
-  searchBar.classList.add("expand");
+document.querySelector(".searchIcon").addEventListener("click", function () {
+  const searchNavbar = document.querySelector("#searchNavbar");
+  searchNavbar.classList.toggle("active");
 });
 
-// document.getElementById("searchIcon").addEventListener("click", function () {
-//   document.getElementById("searchInput").focus();
-// });
+document.querySelector(".closeSearch").addEventListener("click", function () {
+  const searchNavbar = document.querySelector("#searchNavbar");
+  searchNavbar.classList.remove("active");
+});
 
 window.fetchSearchResults = fetchSearchResults;

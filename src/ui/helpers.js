@@ -38,7 +38,6 @@ export function removeLoader(observer) {
 }
 
 export function addLoader(observer) {
-  console.log("loader");
   const loaderContainer = document.getElementById("loaderContainer");
   let loader = document.getElementById("movieLoader");
   if (loader) return;
@@ -51,6 +50,6 @@ export function addLoader(observer) {
 
 export function resetErrorState() {
   const noMoviesFound = document.getElementById("noMoviesFound");
-  if (noMoviesFound) return;
+  if (!noMoviesFound) return;
   noMoviesFound.remove();
 }

@@ -229,7 +229,7 @@ export function createMovieModal(movie, movieReviews, videos, similarMovies) {
     const reviewsNumber = document.createElement("span");
     reviewsNumber.textContent = `${movieReviews.length}`;
     reviewsHeading.appendChild(reviewsNumber);
-    movieReviews.forEach((review) => {
+    movieReviews.slice(0, 2).forEach((review) => {
       const userDetails = document.createElement("div");
       userDetails.classList.add("userDetails");
       const user = document.createElement("div");

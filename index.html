@@ -15,16 +15,25 @@
   </head>
   <body>
     <header>
-      <div class="movierama">Movie<span>Rama</span></div>
-      <div id="searchBar">
-        <img src="/icons/search.svg" alt="search icon" />
-        <input
-          type="text"
-          name="searchBar"
-          oninput="fetchSearchResults(this.value)"
-        />
+      <div id="logo" class="movierama">Movie<span>Rama</span></div>
+      <div class="searchContainer">
+        <button class="searchIcon">
+          <img src="/icons/search.svg" alt="search icon" />
+        </button>
       </div>
     </header>
+
+    <div id="searchNavbar" class="searchNavbar">
+      <div class="searchInputContainer">
+        <input
+          oninput="fetchSearchResults(this.value)"
+          type="text"
+          class="searchInput"
+          placeholder="Search..."
+        />
+        <button class="closeSearch" aria-label="Close search">&times;</button>
+      </div>
+    </div>
 
     <div id="moviesContainer"></div>
     <div id="loaderContainer"><div id="movieLoader" class="loader"></div></div>

@@ -98,6 +98,22 @@ export async function getSearchResults(query) {
   addLoader(observer);
 }
 
+function debounce(func, delay = 500) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+const searchInput = document.querySelector(".searchInput");
+
+const debouncedSearch = debounce(getSearchResults, 500);
+
+searchInput.addEventListener("input", (event) => {
+  debouncedSearch(event.target.value, 1000);
+});
+
 document.querySelector(".searchIcon").addEventListener("click", function () {
   const searchNavbar = document.querySelector("#searchNavbar");
   searchNavbar.classList.toggle("active");
@@ -107,5 +123,3 @@ document.querySelector(".closeSearch").addEventListener("click", function () {
   const searchNavbar = document.querySelector("#searchNavbar");
   searchNavbar.classList.remove("active");
 });
-
-window.getSearchResults = getSearchResults;

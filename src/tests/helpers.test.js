@@ -56,15 +56,3 @@ describe("Helper Functions", () => {
     expect(getTrailerUrl([])).toBeUndefined();
   });
 });
-
-//   test("getTrailerUrl should return the correct YouTube URL", () => {
-//     const videos = [{ type: "Trailer", key: "abc123" }];
-//     expect(getTrailerUrl(videos)).toBe(
-//       "https://www.youtube.com/watch?v=abc123"
-//     );
-//   });
-
-//   test("getTrailerUrl should return undefined if no trailer is found", () => {
-//     expect(getTrailerUrl([])).toBeUndefined();
-//   });
-// });

@@ -1,10 +1,15 @@
 export function formatRating(rating) {
-  return rating.toFixed(1);
+  return rating ? rating.toFixed(1) : 0;
 }
 
 export function closeMovieModal() {
   const movieInfoModal = document.getElementById("movieInfoModal");
-  movieInfoModal.remove();
+  if (!movieInfoModal) return;
+  movieInfoModal.classList.add("closing");
+  document.body.style.overflow = "";
+  setTimeout(() => {
+    movieInfoModal.remove();
+  }, 300);
 }
 
 export function clearMovies() {
@@ -17,6 +22,8 @@ export function clearModal() {
 }
 
 export function getTrailerUrl(videos) {
+  console.log(videos);
+  const youtubeBaseUrl = import.meta.env.VITE_YOUTUBE_BASE_URL;
   if (!videos || videos.length === 0) return;
   let video = null;
   for (let i = videos.length - 1; i >= 0; i--) {
@@ -26,7 +33,7 @@ export function getTrailerUrl(videos) {
     }
   }
   video = video ? video : videos[0].key;
-  return `https://www.youtube.com/watch?v=${video}`;
+  return `${youtubeBaseUrl}${video}`;
 }
 
 export function removeLoader(observer) {

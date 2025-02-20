@@ -81,7 +81,7 @@ a {
 }
 
 #moviesContainer {
-  margin-top: 80px; /* Space for the navbar */
+  margin-top: 80px;
 }
 
 p {
@@ -183,6 +183,29 @@ header {
   margin-block: auto;
   height: 100%;
   width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#movieInfoModal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+#movieInfoModal.active .movieInfoModalContent {
+  transform: scale(1) translate(-50%, -50%);
+  opacity: 1;
+}
+
+#movieInfoModal.closing .movieInfoModalContent {
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+}
+
+#movieInfoModal.closing {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .movieInfoModalContent {
@@ -193,13 +216,15 @@ header {
   top: 50%;
   left: 50%;
   z-index: 20;
-  transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
   border-radius: 8px;
   background-color: #1a1a1a;
   overflow-y: scroll;
   padding-bottom: 20px;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  transition: transform 0.8s ease, opacity 0.8s ease;
 }
 
 .movieInfoModalContent .backArrowButton {

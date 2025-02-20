@@ -10,21 +10,28 @@ import {
   fetchMovieReviews,
   fetchMovieVideos,
   fetchSimilarMovies,
-} from "../main";
-const baseImageUrl = `https://image.tmdb.org/t/p/w185`;
-const MAX_RATING = 10;
-const moviesContainer = document.getElementById("moviesContainer");
+} from "../fetching";
+const baseImageUrl = import.meta.env.VITE_IMAGES_BASE_URL;
+const maxRating = import.meta.env.VITE_MAX_RATING;
+let modalController = new AbortController();
+let reviewsController = new AbortController();
+let videosController = new AbortController();
+let similarMoviesController = new AbortController();
 
 export function createMovieCard(movie, node) {
+  const moviesContainer = document.getElementById("moviesContainer");
   const movieCard = document.createElement("div");
   movieCard.classList.add("movieCard");
   movieCard.setAttribute("id", movie.id);
 
   movieCard.addEventListener("click", async () => {
-    const result = await fetchMovieDetails(movie.id);
-    const videos = await fetchMovieVideos(movie.id);
-    const reviews = await fetchMovieReviews(movie.id);
-    const similarMovies = await fetchSimilarMovies(movie.id);
+    const result = await fetchMovieDetails(movie.id, modalController);
+    const videos = await fetchMovieVideos(movie.id, videosController);
+    const reviews = await fetchMovieReviews(movie.id, reviewsController);
+    const similarMovies = await fetchSimilarMovies(
+      movie.id,
+      similarMoviesController
+    );
     createMovieModal(
       result,
       reviews.results,
@@ -35,7 +42,7 @@ export function createMovieCard(movie, node) {
 
   const movieImage = document.createElement("img");
   movieImage.src = movie.poster_path
-    ? `${baseImageUrl}/${movie.poster_path}`
+    ? `${baseImageUrl}${movie.poster_path}`
     : "/movie-placeholder.png";
   movieImage.alt = movie.title;
 
@@ -51,7 +58,7 @@ export function createMovieCard(movie, node) {
   ratingStarIcon.alt = "rating star icon";
 
   const ratingText = document.createElement("p");
-  ratingText.textContent = `${formatRating(movie.vote_average)}/${MAX_RATING}`;
+  ratingText.textContent = `${formatRating(movie.vote_average)}/${maxRating}`;
 
   ratingContainer.appendChild(ratingStarIcon);
   ratingContainer.appendChild(ratingText);
@@ -78,14 +85,22 @@ export function createMovieCard(movie, node) {
 }
 
 export function createMovieModal(movie, movieReviews, videos, similarMovies) {
+  const moviesContainer = document.getElementById("moviesContainer");
   const movieModal = document.getElementById("movieInfoModal");
   if (movieModal) clearModal();
   const movieInfoModal = document.createElement("div");
   movieInfoModal.setAttribute("id", "movieInfoModal");
+  document.body.style.overflow = "hidden";
 
   const movieInfoModalContent = document.createElement("div");
-  movieInfoModalContent.classList.add("movieInfoModalContent");
+  movieInfoModalContent.classList.add("movieInfoModalContent", "modalBox");
   movieInfoModal.appendChild(movieInfoModalContent);
+
+  document.body.appendChild(movieInfoModal);
+
+  setTimeout(() => {
+    movieInfoModal.classList.add("active");
+  }, 10);
 
   const movieThumbnail = document.createElement("div");
   movieThumbnail.classList.add("movieThumbnail");
@@ -150,7 +165,7 @@ export function createMovieModal(movie, movieReviews, videos, similarMovies) {
   const ratingBold = document.createElement("b");
   ratingBold.textContent = movie.vote_average.toFixed(1);
   ratingText.appendChild(ratingBold);
-  ratingText.appendChild(document.createTextNode(`/${MAX_RATING}`));
+  ratingText.appendChild(document.createTextNode(`/${maxRating}`));
 
   const starIcon = document.createElement("img");
   starIcon.src = "/icons/star-icon.svg";
@@ -240,9 +255,9 @@ export function createMovieModal(movie, movieReviews, videos, similarMovies) {
       const userRating = document.createElement("div");
       userRating.textContent = `${
         review.author_details.rating ?? 0
-      }/${MAX_RATING}`;
+      }/${maxRating}`;
       const blockquote = document.createElement("blockquote");
-      blockquote.innerHTML = review.content; /////////////////////////////////////////////
+      blockquote.textContent = review.content;
       reviews.appendChild(userDetails);
       userDetails.appendChild(user);
       userDetails.appendChild(userRating);
@@ -251,14 +266,13 @@ export function createMovieModal(movie, movieReviews, videos, similarMovies) {
     });
   }
 
-  const moviesContainer = document.querySelector("#moviesContainer");
   moviesContainer.appendChild(movieInfoModal);
 }
 
-export function createSomethingWentWrong() {
+export function createSomethingWentWrong(observer) {
   const noMoviesFound = document.getElementById("noMoviesFound");
   if (noMoviesFound) return;
-  removeLoader();
+  removeLoader(observer);
   const div = document.createElement("div");
   div.setAttribute("id", "noMoviesFound");
   div.textContent = "Something went wrong!";

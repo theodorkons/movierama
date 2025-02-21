@@ -57,9 +57,8 @@ Create a `.env` file in the root directory and add your TMDB API key:
 ```plaintext
 VITE_API_KEY=your_api_key_here
 VITE_TMDB_API_URL = 'https://api.themoviedb.org/3'
-<!--VITE_MAX_RATING: The maximum rating a movie can have, typically 10.-->
+#VITE_MAX_RATING: The maximum rating a movie can have, typically 10.
 VITE_MAX_RATING = 10;
-VITE_MAX_RATING = 10
 VITE_IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w185'
 VITE_YOUTUBE_BASE_URL = 'https://www.youtube.com/watch?v='
 ```

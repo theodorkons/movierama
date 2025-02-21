@@ -6,7 +6,6 @@ export async function fetchNowPlayingMovies(
   controller,
   observer
 ) {
-  controller = new AbortController();
   try {
     const response = await fetch(
       `${apiUrl}/movie/now_playing?language=en-US&page=${nowPlayingCurrentPage}&api_key=${apiKey}`,
@@ -21,8 +20,6 @@ export async function fetchNowPlayingMovies(
 }
 
 export async function fetchMovieDetails(movieId, controller) {
-  controller.abort();
-  controller = new AbortController();
   try {
     const response = await fetch(
       `${apiUrl}/movie/${movieId}?language=en-US&api_key=${apiKey}`,
@@ -38,8 +35,6 @@ export async function fetchMovieDetails(movieId, controller) {
 }
 
 export async function fetchMovieVideos(movieId, controller) {
-  controller.abort();
-  controller = new AbortController();
   try {
     const response = await fetch(
       `${apiUrl}/movie/${movieId}/videos?language=en-US&api_key=${apiKey}`,
@@ -55,8 +50,6 @@ export async function fetchMovieVideos(movieId, controller) {
 }
 
 export async function fetchMovieReviews(movieId, controller) {
-  controller.abort();
-  controller = new AbortController();
   try {
     const response = await fetch(
       `${apiUrl}/movie/${movieId}/reviews?language=en-US&api_key=${apiKey}`,
@@ -72,8 +65,6 @@ export async function fetchMovieReviews(movieId, controller) {
 }
 
 export async function fetchSimilarMovies(movieId, controller) {
-  controller.abort();
-  controller = new AbortController();
   try {
     const response = await fetch(
       `${apiUrl}/movie/${movieId}/similar?language=en-US&api_key=${apiKey}`,

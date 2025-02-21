@@ -10,10 +10,10 @@ import {
   fetchMovieReviews,
   fetchMovieVideos,
   fetchSimilarMovies,
-} from "../fetching";
+} from "../api/index";
 const baseImageUrl = import.meta.env.VITE_IMAGES_BASE_URL;
 const maxRating = import.meta.env.VITE_MAX_RATING;
-let modalController = new AbortController();
+let movieDetailsController = new AbortController();
 let reviewsController = new AbortController();
 let videosController = new AbortController();
 let similarMoviesController = new AbortController();
@@ -25,7 +25,15 @@ export function createMovieCard(movie, node) {
   movieCard.setAttribute("id", movie.id);
 
   movieCard.addEventListener("click", async () => {
-    const result = await fetchMovieDetails(movie.id, modalController);
+    movieDetailsController.abort();
+    reviewsController.abort();
+    videosController.abort();
+    similarMoviesController.abort();
+    movieDetailsController = new AbortController();
+    reviewsController = new AbortController();
+    videosController = new AbortController();
+    similarMoviesController = new AbortController();
+    const result = await fetchMovieDetails(movie.id, movieDetailsController);
     const videos = await fetchMovieVideos(movie.id, videosController);
     const reviews = await fetchMovieReviews(movie.id, reviewsController);
     const similarMovies = await fetchSimilarMovies(

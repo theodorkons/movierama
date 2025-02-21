@@ -6,7 +6,7 @@ import {
   removeLoader,
   resetErrorState,
 } from "./ui/helpers";
-import { fetchNowPlayingMovies, fetchSearchResults } from "./fetching";
+import { fetchNowPlayingMovies, fetchSearchResults } from "./api/index";
 
 let nowPlayingCurrentPage = 1;
 let searchingCurrentPage = 1;
@@ -22,6 +22,8 @@ const observer = new IntersectionObserver(
     if (entries[0].isIntersecting) {
       try {
         if (userSearching) {
+          searchController.abort();
+          searchController = new AbortController();
           const movies = await fetchSearchResults(
             searchQuery,
             searchingCurrentPage,
@@ -50,6 +52,7 @@ observer.observe(loader);
 
 async function getNowPlayingMovies() {
   searchController.abort();
+  nowPlayingController.abort();
   nowPlayingController = new AbortController();
   const movies = await fetchNowPlayingMovies(
     nowPlayingCurrentPage,

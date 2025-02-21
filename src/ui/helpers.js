@@ -22,7 +22,6 @@ export function clearModal() {
 }
 
 export function getTrailerUrl(videos) {
-  console.log(videos);
   const youtubeBaseUrl = import.meta.env.VITE_YOUTUBE_BASE_URL;
   if (!videos || videos.length === 0) return;
   let video = null;

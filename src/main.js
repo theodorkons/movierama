@@ -131,8 +131,16 @@ document.querySelector(".searchIcon").addEventListener("click", function () {
   document.getElementById("header").classList.toggle("hide");
 });
 
-document.querySelector(".closeSearch").addEventListener("click", function () {
-  const searchNavbar = document.querySelector("#searchNavbar");
-  searchNavbar.classList.remove("active");
-  document.getElementById("header").classList.toggle("hide");
-});
+document
+  .querySelector(".closeSearch")
+  .addEventListener("click", async function () {
+    searchQuery = "";
+    nowPlayingCurrentPage = 1;
+    userSearching = false;
+    const searchNavbar = document.querySelector("#searchNavbar");
+    const searchInput = document.querySelector(".searchNavbar .searchInput");
+    searchInput.value = "";
+    searchNavbar.classList.remove("active");
+    document.getElementById("header").classList.toggle("hide");
+    clearMovies();
+  });

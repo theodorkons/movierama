@@ -16,7 +16,7 @@ export async function fetchNowPlayingMovies(
     if (!response.ok) throw new Error("Failed to fetch movies");
     const movies = await response.json();
     return movies;
-  } catch (e) {
+  } catch (error) {
     if (error.name !== "AbortError") createSomethingWentWrong(observer);
   }
 }
@@ -47,7 +47,7 @@ export async function fetchMovieVideos(movieId, controller) {
     const videos = await response.json();
     return videos;
   } catch (error) {
-    createErrorPopup(error);
+    if (error.name !== "AbortError") createErrorPopup(error);
   }
 }
 

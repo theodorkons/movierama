@@ -17,7 +17,7 @@ export async function fetchNowPlayingMovies(
     const movies = await response.json();
     return movies;
   } catch (e) {
-    createSomethingWentWrong(observer);
+    if (error.name !== "AbortError") createSomethingWentWrong(observer);
   }
 }
 
@@ -32,7 +32,7 @@ export async function fetchMovieDetails(movieId, controller) {
     const movie = await response.json();
     return movie;
   } catch (error) {
-    createErrorPopup(error);
+    if (error.name !== "AbortError") createErrorPopup(error);
   }
 }
 
@@ -62,7 +62,7 @@ export async function fetchMovieReviews(movieId, controller) {
     const reviews = await response.json();
     return reviews;
   } catch (error) {
-    createErrorPopup(error);
+    if (error.name !== "AbortError") createErrorPopup(error);
   }
 }
 
@@ -77,7 +77,7 @@ export async function fetchSimilarMovies(movieId, controller) {
     const similarMovies = await response.json();
     return similarMovies;
   } catch (error) {
-    createErrorPopup(error);
+    if (error.name !== "AbortError") createErrorPopup(error);
   }
 }
 

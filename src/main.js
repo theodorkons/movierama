@@ -134,6 +134,7 @@ document.querySelector(".searchIcon").addEventListener("click", function () {
 document
   .querySelector(".closeSearch")
   .addEventListener("click", async function () {
+    if (searchQuery !== "") clearMovies();
     searchQuery = "";
     nowPlayingCurrentPage = 1;
     userSearching = false;
@@ -142,5 +143,4 @@ document
     searchInput.value = "";
     searchNavbar.classList.remove("active");
     document.getElementById("header").classList.toggle("hide");
-    clearMovies();
   });

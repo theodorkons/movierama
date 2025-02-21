@@ -55,11 +55,19 @@ A movie discovery web application that allows users to explore currently playing
 Create a `.env` file in the root directory and add your TMDB API key:
 
 ```plaintext
+# TMBD API KEY
 VITE_API_KEY=your_api_key_here
+
+# TMDB API BASE URL
 VITE_TMDB_API_URL = 'https://api.themoviedb.org/3'
-#VITE_MAX_RATING: The maximum rating a movie can have, typically 10.
+
+# The maximum rating a movie can have, typically 10.
 VITE_MAX_RATING = 10;
+
+# Base url for all TMDB image assets
 VITE_IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w185'
+
+# Youtube standard base URL
 VITE_YOUTUBE_BASE_URL = 'https://www.youtube.com/watch?v='
 ```
 

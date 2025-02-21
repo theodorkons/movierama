@@ -12,6 +12,7 @@ import {
   createSomethingWentWrong,
   createMovieModal,
   createMovieCard,
+  createNoMoviesFound,
 } from "../ui/create";
 
 describe("Movie Modal Functions", () => {
@@ -320,5 +321,27 @@ describe("createMovieCard", () => {
     createMovieCard(movie);
     const moviesContainer = document.getElementById("moviesContainer");
     expect(moviesContainer.children.length).toBeGreaterThan(0);
+  });
+});
+
+describe("create no movies found", () => {
+  it('should create a "No movies found" message if a search returns zero results', () => {
+    const observer = {};
+    createNoMoviesFound(observer);
+
+    const noMoviesFound = document.getElementById("noMoviesFound");
+    expect(noMoviesFound).toBeTruthy();
+    expect(noMoviesFound.textContent).toBe("No movies found!");
+  });
+
+  it('should not create "No movies found" message if it already exists', () => {
+    const observer = {};
+    const div = document.createElement("div");
+    div.setAttribute("id", "noMoviesFound");
+    document.body.appendChild(div);
+
+    createNoMoviesFound(observer);
+    const allDivs = document.querySelectorAll("#noMoviesFound");
+    expect(allDivs.length).toBe(1);
   });
 });

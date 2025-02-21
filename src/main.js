@@ -1,5 +1,9 @@
 import "./style.css";
-import { createMovieCard, createSomethingWentWrong } from "./ui/create";
+import {
+  createMovieCard,
+  createSomethingWentWrong,
+  createNoMoviesFound,
+} from "./ui/create";
 import {
   addLoader,
   clearMovies,
@@ -59,11 +63,7 @@ async function getNowPlayingMovies() {
     nowPlayingController,
     observer
   );
-  if (movies) {
-    movies.results.forEach((movie) => {
-      createMovieCard(movie);
-    });
-  }
+  displayMovies(movies);
 }
 
 export async function getSearchResults(query) {
@@ -94,11 +94,19 @@ export async function getSearchResults(query) {
     searchController,
     observer
   );
+  displayMovies(movies);
+}
+
+function displayMovies(movies) {
+  if (!movies || movies.results.length === 0) {
+    createNoMoviesFound(observer);
+    return;
+  }
   movies.results.forEach((movie) => {
     createMovieCard(movie);
   });
-  searchingCurrentPage++;
   addLoader(observer);
+  searchingCurrentPage++;
 }
 
 function debounce(func, delay = 500) {
@@ -120,9 +128,11 @@ searchInput.addEventListener("input", (event) => {
 document.querySelector(".searchIcon").addEventListener("click", function () {
   const searchNavbar = document.querySelector("#searchNavbar");
   searchNavbar.classList.toggle("active");
+  document.getElementById("header").classList.toggle("hide");
 });
 
 document.querySelector(".closeSearch").addEventListener("click", function () {
   const searchNavbar = document.querySelector("#searchNavbar");
   searchNavbar.classList.remove("active");
+  document.getElementById("header").classList.toggle("hide");
 });

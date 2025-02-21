@@ -40,12 +40,13 @@ export function createMovieCard(movie, node) {
       movie.id,
       similarMoviesController
     );
-    createMovieModal(
-      result,
-      reviews.results,
-      videos.results,
-      similarMovies.results
-    );
+    if (result)
+      createMovieModal(
+        result,
+        reviews?.results ?? [],
+        videos?.results ?? [],
+        similarMovies?.results ?? []
+      );
   });
 
   const movieImage = document.createElement("img");
@@ -278,16 +279,17 @@ export function createMovieModal(movie, movieReviews, videos, similarMovies) {
 }
 
 export function createSomethingWentWrong(observer) {
-  const noMoviesFound = document.getElementById("noMoviesFound");
-  if (noMoviesFound) return;
+  let noMoviesFound = document.getElementById("noMoviesFound");
+  if (!noMoviesFound) {
+    noMoviesFound = document.createElement("div");
+    noMoviesFound.setAttribute("id", "noMoviesFound");
+  }
   removeLoader(observer);
-  const div = document.createElement("div");
-  div.setAttribute("id", "noMoviesFound");
-  div.textContent = "Something went wrong!";
+  noMoviesFound.textContent = "Something went wrong!";
   const p = document.createElement("p");
   p.textContent = "Could not find any movies";
-  div.appendChild(p);
-  document.body.appendChild(div);
+  noMoviesFound.appendChild(p);
+  document.body.appendChild(noMoviesFound);
 }
 
 export function createErrorPopup(text) {
@@ -299,4 +301,17 @@ export function createErrorPopup(text) {
   setTimeout(() => {
     popup.remove();
   }, 5000);
+}
+
+export function createNoMoviesFound(observer) {
+  removeLoader(observer);
+  let noMoviesFound = document.getElementById("noMoviesFound");
+  if (noMoviesFound) return;
+  noMoviesFound = document.createElement("div");
+  noMoviesFound.setAttribute("id", "noMoviesFound");
+  const p = document.createElement("p");
+  p.setAttribute("id", "noMoviesFound");
+  p.textContent = "No movies found!";
+  noMoviesFound.appendChild(p);
+  document.body.appendChild(noMoviesFound);
 }

@@ -70,7 +70,7 @@ a {
 .closeSearch {
   position: absolute;
   top: 50%;
-  right: 0px;
+  right: -10px;
   transform: translateY(-50%);
   background: none;
   border: none;
@@ -81,7 +81,7 @@ a {
 }
 
 .closeSearch:hover {
-  color: white;
+  color: black;
 }
 
 #moviesContainer {
@@ -107,6 +107,12 @@ header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 40px;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+header.hide {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .movierama {
@@ -181,7 +187,7 @@ header {
   position: fixed;
   top: 50%;
   left: 50%;
-  z-index: 20;
+  z-index: 200;
   transform: translate(-50%, -50%);
   backdrop-filter: blur(3px);
   margin-block: auto;
@@ -426,6 +432,7 @@ header {
   position: fixed;
   bottom: 15px;
   right: 8px;
+  z-index: 500;
   padding: 30px;
   border-radius: 8px;
   background-color: #ff6262;

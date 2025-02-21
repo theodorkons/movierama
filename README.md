@@ -11,6 +11,7 @@ A movie discovery web application that allows users to explore currently playing
 - [Usage](#usage)
 - [Testing](#testing)
 - [Future Improvements](#future-improvements)
+- [Deployment](#deployment)
 
 ## Features
 
@@ -56,6 +57,8 @@ Create a `.env` file in the root directory and add your TMDB API key:
 ```plaintext
 VITE_API_KEY=your_api_key_here
 VITE_TMDB_API_URL = 'https://api.themoviedb.org/3'
+<!--VITE_MAX_RATING: The maximum rating a movie can have, typically 10.-->
+VITE_MAX_RATING = 10;
 VITE_MAX_RATING = 10
 VITE_IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w185'
 VITE_YOUTUBE_BASE_URL = 'https://www.youtube.com/watch?v='
@@ -94,5 +97,12 @@ npm run test
 - [ ] Reviews Pagination: Improve reviews with paginated results.
 - [ ] Theming Options: Add light and dark mode support.
 - [ ] Improved Search: Enhance search capabilities with filters for genres, release year, and ratings.
+- [ ] Close Modal: Close the modal when clicking outside of it.
+- [ ] History on Modal Back Button: Implement history functionality for the modal back button.
+
+## Deployment
+
+Movierama is deployed on Vercel. You can access it here:
+[Movierama on Vercel](https://movierama-one.vercel.app/)
 
 ---
